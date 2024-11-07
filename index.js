@@ -37,60 +37,48 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var playwright_1 = require("playwright");
-(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var userAgentStrings, browser, context, page, algoSalioMal, precio, detalles, contadorDetalles, detallesItems, i, nombre, _a, _b, extras, contadorExtras, extrasItems, i, item, ref, descripcion, imagenes, i, imagen, respuesta, error_1;
+var userAgentStrings = [
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.2227.0 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.3497.92 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
+];
+var extraerDatos = function (url, context) { return __awaiter(void 0, void 0, void 0, function () {
+    var page, algoSalioMal, precio, detalles, contadorDetalles, detallesItems, i, nombre, _a, _b, extras, contadorExtras, extrasItems, i, item, ref, descripcion, descripcionSinSaltoDeLinea, imagenes, i, imagen, respuesta;
     return __generator(this, function (_c) {
         switch (_c.label) {
-            case 0:
-                _c.trys.push([0, 27, , 28]);
-                console.time("loop");
-                userAgentStrings = [
-                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.2227.0 Safari/537.36",
-                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
-                    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.3497.92 Safari/537.36",
-                    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
-                ];
-                return [4 /*yield*/, playwright_1.chromium.launch({
-                    // headless: false,
-                    })];
+            case 0: return [4 /*yield*/, context.newPage()];
             case 1:
-                browser = _c.sent();
-                return [4 /*yield*/, browser.newContext({
-                        userAgent: userAgentStrings[Math.floor(Math.random() * userAgentStrings.length)],
-                    })];
-            case 2:
-                context = _c.sent();
-                return [4 /*yield*/, context.newPage()];
-            case 3:
                 page = _c.sent();
-                return [4 /*yield*/, page.goto("https://www.milanuncios.com/venta-de-pisos-en-ciudad-real-ciudad_real/ciudad-real-522268199.htm")];
-            case 4:
+                return [4 /*yield*/, page.goto(url)];
+            case 2:
                 _c.sent();
                 return [4 /*yield*/, page.locator("h1").textContent()];
-            case 5:
+            case 3:
                 algoSalioMal = _c.sent();
                 console.log({ algoSalioMal: algoSalioMal });
+                // aceptar cookies
+                return [4 /*yield*/, page.locator("#didomi-notice-agree-button").click()];
+            case 4:
+                // aceptar cookies
+                _c.sent();
                 return [4 /*yield*/, page
                         .locator(".ma-AdPrice-value")
                         .nth(0)
                         .textContent()];
-            case 6:
+            case 5:
                 precio = _c.sent();
                 detalles = page.locator(".ma-AdAttributes-list li");
                 return [4 /*yield*/, detalles.count()];
-            case 7:
+            case 6:
                 contadorDetalles = _c.sent();
                 detallesItems = {};
                 i = 0;
-                _c.label = 8;
+                _c.label = 7;
+            case 7:
+                if (!(i < contadorDetalles)) return [3 /*break*/, 11];
+                return [4 /*yield*/, detalles.nth(i).locator("p").nth(0).innerText()];
             case 8:
-                if (!(i < contadorDetalles)) return [3 /*break*/, 12];
-                return [4 /*yield*/, detalles
-                        .nth(i)
-                        .locator("p")
-                        .nth(0)
-                        .innerText()];
-            case 9:
                 nombre = _c.sent();
                 _a = detallesItems;
                 _b = nombre;
@@ -99,84 +87,114 @@ var playwright_1 = require("playwright");
                         .locator("p")
                         .nth(1)
                         .innerText()];
-            case 10:
+            case 9:
                 _a[_b] = _c.sent();
-                _c.label = 11;
-            case 11:
+                _c.label = 10;
+            case 10:
                 i++;
-                return [3 /*break*/, 8];
-            case 12:
+                return [3 /*break*/, 7];
+            case 11:
                 extras = page.locator(".ma-AdExtraAttributes-wrapper li");
                 return [4 /*yield*/, extras.count()];
-            case 13:
+            case 12:
                 contadorExtras = _c.sent();
                 extrasItems = [];
                 i = 0;
-                _c.label = 14;
-            case 14:
-                if (!(i < contadorExtras)) return [3 /*break*/, 17];
+                _c.label = 13;
+            case 13:
+                if (!(i < contadorExtras)) return [3 /*break*/, 16];
                 return [4 /*yield*/, extras.nth(i).textContent()];
-            case 15:
+            case 14:
                 item = _c.sent();
                 if (item !== null)
                     extrasItems.push(item);
-                _c.label = 16;
-            case 16:
+                _c.label = 15;
+            case 15:
                 i++;
-                return [3 /*break*/, 14];
-            case 17: return [4 /*yield*/, page
+                return [3 /*break*/, 13];
+            case 16: return [4 /*yield*/, page
                     .locator(".ma-AdDetail-description-titleWrapper p")
                     .textContent()];
-            case 18:
+            case 17:
                 ref = _c.sent();
                 return [4 /*yield*/, page
                         .locator(".ma-AdDetail-description")
                         .textContent()];
-            case 19:
+            case 18:
                 descripcion = _c.sent();
+                descripcionSinSaltoDeLinea = descripcion === null || descripcion === void 0 ? void 0 : descripcion.replace(/\n/g, " ");
                 imagenes = [];
                 i = 0;
-                _c.label = 20;
-            case 20:
-                if (!(i < 16)) return [3 /*break*/, 24];
+                _c.label = 19;
+            case 19:
+                if (!(i < 16)) return [3 /*break*/, 23];
                 return [4 /*yield*/, page
                         .locator(".ma-SharedSlider-slide picture img")
                         .nth(i)
                         .getAttribute("src")];
-            case 21:
+            case 20:
                 imagen = _c.sent();
                 if (imagen !== null)
                     imagenes.push(imagen);
                 return [4 /*yield*/, page.locator('[aria-label="Ver siguiente foto"]').click()];
-            case 22:
+            case 21:
                 _c.sent();
-                _c.label = 23;
-            case 23:
+                _c.label = 22;
+            case 22:
                 i++;
-                return [3 /*break*/, 20];
-            case 24:
+                return [3 /*break*/, 19];
+            case 23:
                 respuesta = {
                     precio: precio,
                     detalles: detallesItems,
                     extras: extrasItems,
                     ref: ref,
-                    descripcion: descripcion,
+                    descripcion: descripcionSinSaltoDeLinea,
                     imagenes: imagenes,
                 };
-                console.log({ respuesta: respuesta });
                 return [4 /*yield*/, page.close()];
-            case 25:
+            case 24:
                 _c.sent();
+                return [2 /*return*/, respuesta];
+        }
+    });
+}); };
+(function () { return __awaiter(void 0, void 0, void 0, function () {
+    var browser, context_1, urls, resultados, error_1;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 5, , 6]);
+                console.time("loop");
+                return [4 /*yield*/, playwright_1.chromium.launch({
+                    // headless: false,
+                    })];
+            case 1:
+                browser = _a.sent();
+                return [4 /*yield*/, browser.newContext({
+                        userAgent: userAgentStrings[Math.floor(Math.random() * userAgentStrings.length)],
+                    })];
+            case 2:
+                context_1 = _a.sent();
+                urls = [
+                    "https://www.milanuncios.com/venta-de-pisos-en-ciudad-real-ciudad_real/ciudad-real-522268199.htm",
+                    "https://www.milanuncios.com/venta-de-pisos-en-ciudad-real-ciudad_real/ciudad-real-522268199.htm",
+                    "https://www.milanuncios.com/venta-de-pisos-en-ciudad-real-ciudad_real/ciudad-real-522268199.htm",
+                ];
+                return [4 /*yield*/, Promise.all(urls.map(function (url) { return extraerDatos(url, context_1); }))];
+            case 3:
+                resultados = _a.sent();
+                console.log(resultados);
                 return [4 /*yield*/, browser.close()];
-            case 26:
-                _c.sent();
+            case 4:
+                _a.sent();
                 console.timeEnd("loop");
-                return [3 /*break*/, 28];
-            case 27:
-                error_1 = _c.sent();
+                return [3 /*break*/, 6];
+            case 5:
+                error_1 = _a.sent();
                 console.log({ error: error_1 });
-                return [3 /*break*/, 28];
-            case 28: return [2 /*return*/];
+                return [3 /*break*/, 6];
+            case 6: return [2 /*return*/];
         }
     });
 }); })();
