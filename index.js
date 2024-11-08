@@ -44,7 +44,7 @@ var userAgentStrings = [
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
 ];
 var extraerDatos = function (url, context) { return __awaiter(void 0, void 0, void 0, function () {
-    var page, algoSalioMal, precio, detalles, contadorDetalles, detallesItems, i, nombre, _a, _b, extras, contadorExtras, extrasItems, i, item, ref, descripcion, descripcionSinSaltoDeLinea, imagenes, i, imagen, respuesta;
+    var page, algoSalioMal, precio, detalles, contadorDetalles, detallesElementos, i, nombre, _a, _b, extras, contadorExtras, extrasElementos, i, item, ref, descripcion, descripcionSinSaltoDeLinea, imagenes, i, imagen, respuesta;
     return __generator(this, function (_c) {
         switch (_c.label) {
             case 0: return [4 /*yield*/, context.newPage()];
@@ -72,15 +72,15 @@ var extraerDatos = function (url, context) { return __awaiter(void 0, void 0, vo
                 return [4 /*yield*/, detalles.count()];
             case 6:
                 contadorDetalles = _c.sent();
-                detallesItems = {};
+                detallesElementos = {};
                 i = 0;
                 _c.label = 7;
             case 7:
-                if (!(i < contadorDetalles)) return [3 /*break*/, 11];
+                if (!(i < 3)) return [3 /*break*/, 11];
                 return [4 /*yield*/, detalles.nth(i).locator("p").nth(0).innerText()];
             case 8:
                 nombre = _c.sent();
-                _a = detallesItems;
+                _a = detallesElementos;
                 _b = nombre;
                 return [4 /*yield*/, detalles
                         .nth(i)
@@ -98,7 +98,7 @@ var extraerDatos = function (url, context) { return __awaiter(void 0, void 0, vo
                 return [4 /*yield*/, extras.count()];
             case 12:
                 contadorExtras = _c.sent();
-                extrasItems = [];
+                extrasElementos = [];
                 i = 0;
                 _c.label = 13;
             case 13:
@@ -107,7 +107,7 @@ var extraerDatos = function (url, context) { return __awaiter(void 0, void 0, vo
             case 14:
                 item = _c.sent();
                 if (item !== null)
-                    extrasItems.push(item);
+                    extrasElementos.push(item);
                 _c.label = 15;
             case 15:
                 i++;
@@ -127,7 +127,7 @@ var extraerDatos = function (url, context) { return __awaiter(void 0, void 0, vo
                 i = 0;
                 _c.label = 19;
             case 19:
-                if (!(i < 16)) return [3 /*break*/, 23];
+                if (!(i < 3)) return [3 /*break*/, 23];
                 return [4 /*yield*/, page
                         .locator(".ma-SharedSlider-slide picture img")
                         .nth(i)
@@ -146,8 +146,8 @@ var extraerDatos = function (url, context) { return __awaiter(void 0, void 0, vo
             case 23:
                 respuesta = {
                     precio: precio,
-                    detalles: detallesItems,
-                    extras: extrasItems,
+                    detalles: detallesElementos,
+                    extras: extrasElementos,
                     ref: ref,
                     descripcion: descripcionSinSaltoDeLinea,
                     imagenes: imagenes,
@@ -165,12 +165,14 @@ var extraerDatos = function (url, context) { return __awaiter(void 0, void 0, vo
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 5, , 6]);
-                console.time("loop");
+                console.time("browser");
+                console.time('loop');
                 return [4 /*yield*/, playwright_1.chromium.launch({
                     // headless: false,
                     })];
             case 1:
                 browser = _a.sent();
+                console.timeEnd("browser");
                 return [4 /*yield*/, browser.newContext({
                         userAgent: userAgentStrings[Math.floor(Math.random() * userAgentStrings.length)],
                     })];
@@ -178,8 +180,15 @@ var extraerDatos = function (url, context) { return __awaiter(void 0, void 0, vo
                 context_1 = _a.sent();
                 urls = [
                     "https://www.milanuncios.com/venta-de-pisos-en-ciudad-real-ciudad_real/ciudad-real-522268199.htm",
+                    "https://www.milanuncios.com/venta-de-pisos-en-ciudad-real-ciudad_real/ciudad-real-529012507.htm",
                     "https://www.milanuncios.com/venta-de-pisos-en-ciudad-real-ciudad_real/ciudad-real-522268199.htm",
+                    "https://www.milanuncios.com/venta-de-pisos-en-ciudad-real-ciudad_real/centro-pl-prta-de-alarcos-528974621.htm",
+                    "https://www.milanuncios.com/venta-de-pisos-en-ciudad-real-ciudad_real/ciudad-real-529007237.htm",
                     "https://www.milanuncios.com/venta-de-pisos-en-ciudad-real-ciudad_real/ciudad-real-522268199.htm",
+                    "https://www.milanuncios.com/venta-de-pisos-en-ciudad-real-ciudad_real/ciudad-real-529012507.htm",
+                    "https://www.milanuncios.com/venta-de-pisos-en-ciudad-real-ciudad_real/ciudad-real-522268199.htm",
+                    "https://www.milanuncios.com/venta-de-pisos-en-ciudad-real-ciudad_real/centro-pl-prta-de-alarcos-528974621.htm",
+                    "https://www.milanuncios.com/venta-de-pisos-en-ciudad-real-ciudad_real/ciudad-real-529007237.htm",
                 ];
                 return [4 /*yield*/, Promise.all(urls.map(function (url) { return extraerDatos(url, context_1); }))];
             case 3:

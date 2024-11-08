@@ -46,11 +46,11 @@ const extraerDatos = async (url: string, context: any): Promise<Respuesta> => {
   // Detalles
   const detalles: Locator = page.locator(".ma-AdAttributes-list li");
   const contadorDetalles: number = await detalles.count();
-  const detallesItems: Detalles = {};
+  const detallesElementos: Detalles = {};
 
-  for (let i = 0; i < contadorDetalles; i++) {
+  for (let i = 0; i < 3; i++) {
     let nombre: string = await detalles.nth(i).locator("p").nth(0).innerText();
-    detallesItems[nombre] = await detalles
+    detallesElementos[nombre] = await detalles
       .nth(i)
       .locator("p")
       .nth(1)
@@ -60,11 +60,11 @@ const extraerDatos = async (url: string, context: any): Promise<Respuesta> => {
   // Extras
   const extras: Locator = page.locator(".ma-AdExtraAttributes-wrapper li");
   const contadorExtras: number = await extras.count();
-  const extrasItems: string[] = [];
+  const extrasElementos: string[] = [];
 
   for (let i = 0; i < contadorExtras; i++) {
     const item: string | null = await extras.nth(i).textContent();
-    if (item !== null) extrasItems.push(item);
+    if (item !== null) extrasElementos.push(item);
   }
 
   // Ref
@@ -82,7 +82,7 @@ const extraerDatos = async (url: string, context: any): Promise<Respuesta> => {
   // Imagenes
   const imagenes: string[] | null = [];
 
-  for (let i = 0; i < 16; i++) {
+  for (let i = 0; i < 3; i++) {
     const imagen: string | null = await page
       .locator(".ma-SharedSlider-slide picture img")
       .nth(i)
@@ -96,8 +96,8 @@ const extraerDatos = async (url: string, context: any): Promise<Respuesta> => {
   // Respuesta
   const respuesta: Respuesta = {
     precio,
-    detalles: detallesItems,
-    extras: extrasItems,
+    detalles: detallesElementos,
+    extras: extrasElementos,
     ref,
     descripcion: descripcionSinSaltoDeLinea,
     imagenes,
@@ -110,12 +110,14 @@ const extraerDatos = async (url: string, context: any): Promise<Respuesta> => {
 
 (async () => {
   try {
-    console.time("loop");
+    console.time("browser");
+    console.time('loop')
 
     // iniciar el navegador
     const browser: Browser = await chromium.launch({
       // headless: false,
     });
+    console.timeEnd("browser");
 
     const context = await browser.newContext({
       userAgent:
@@ -124,8 +126,15 @@ const extraerDatos = async (url: string, context: any): Promise<Respuesta> => {
 
     const urls = [
       "https://www.milanuncios.com/venta-de-pisos-en-ciudad-real-ciudad_real/ciudad-real-522268199.htm",
+      "https://www.milanuncios.com/venta-de-pisos-en-ciudad-real-ciudad_real/ciudad-real-529012507.htm",
       "https://www.milanuncios.com/venta-de-pisos-en-ciudad-real-ciudad_real/ciudad-real-522268199.htm",
+      "https://www.milanuncios.com/venta-de-pisos-en-ciudad-real-ciudad_real/centro-pl-prta-de-alarcos-528974621.htm",
+      "https://www.milanuncios.com/venta-de-pisos-en-ciudad-real-ciudad_real/ciudad-real-529007237.htm",
       "https://www.milanuncios.com/venta-de-pisos-en-ciudad-real-ciudad_real/ciudad-real-522268199.htm",
+      "https://www.milanuncios.com/venta-de-pisos-en-ciudad-real-ciudad_real/ciudad-real-529012507.htm",
+      "https://www.milanuncios.com/venta-de-pisos-en-ciudad-real-ciudad_real/ciudad-real-522268199.htm",
+      "https://www.milanuncios.com/venta-de-pisos-en-ciudad-real-ciudad_real/centro-pl-prta-de-alarcos-528974621.htm",
+      "https://www.milanuncios.com/venta-de-pisos-en-ciudad-real-ciudad_real/ciudad-real-529007237.htm",
     ];
 
     const resultados = await Promise.all(
